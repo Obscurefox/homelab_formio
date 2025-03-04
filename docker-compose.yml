@@ -15,7 +15,7 @@ services:
     container_name: formio-ce
     restart: always
     ports:
-      - 3001:3001
+      - 3002:3001
     environment:
       DEBUG: formio:*
       ROOT_EMAIL: ${EMAIL}
