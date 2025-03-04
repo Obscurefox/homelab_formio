@@ -7,7 +7,7 @@ services:
       - ./data/db:/data/db
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${USERNAME}
-      - MONGO_INITDB_ROOT_PASSWOR=${PASSWORD}
+      - MONGO_INITDB_ROOT_PASSWORD=${PASSWORD}
     networks:
       - formio-ce
   formio-ce:
@@ -25,7 +25,7 @@ services:
           "mongo": "mongodb://mongo-ce:27017/formio-ce",
           "port": 3001,
           "jwt": {
-            "secret": "$${SECRET}"
+            "secret": "${SECRET}"
           }
         }
     networks:
