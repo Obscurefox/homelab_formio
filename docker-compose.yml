@@ -4,10 +4,10 @@ services:
     container_name: formio-mongo-ce
     restart: unless-stopped
     volumes:
-      - "./data/db:/data/db"
+      - ./data/db:/data/db
     environment:
-      - MONGO_INITDB_ROOT_USERNAME
-      - MONGO_INITDB_ROOT_PASSWOR
+      - MONGO_INITDB_ROOT_USERNAME=${USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${PASSWORD}
     networks:
       - formio-ce
   formio-ce:
@@ -15,23 +15,26 @@ services:
     container_name: formio-ce
     restart: always
     ports:
-      - "3001:3001"
+      - 3002:3001
     environment:
       DEBUG: formio:*
-      ROOT_EMAIL: admin@example.com
-      ROOT_PASSWORD: CHANGEME
+      ROOT_EMAIL: ${EMAIL}
+      ROOT_PASSWORD: ${PASSWORD}
       NODE_CONFIG: |
         {
           "mongo": "mongodb://mongo-ce:27017/formio-ce",
           "port": 3001,
           "jwt": {
-            "secret": "CHANGEME"
+            "secret": "${SECRET}"
           }
         }
     networks:
       - formio-ce
+      - traefik-net
     depends_on:
       - mongo-ce
 networks:
   formio-ce:
     driver: bridge
+  traefik-net:
+    external: true
